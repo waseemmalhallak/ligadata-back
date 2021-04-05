@@ -129,7 +129,7 @@ pagination = (req, res) => {
         limit: limit, offset:offset,
         where: {
           country: cntry
-      })
+      }})
         .then(data => {
           const totalPages = Math.ceil(data.count / limit);
           const response = {
