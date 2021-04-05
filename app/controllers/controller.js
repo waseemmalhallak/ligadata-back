@@ -38,7 +38,39 @@ pagination = (req, res) => {
                 "limit": limit,
                 "currentPageNumber": page + 1,
                 "currentPageSize": data.rows.length,
-                "customers": data.rows
+                "data": data.rows
+            }
+          };
+          res.send(response);
+        });  
+    }catch(error) {
+      res.status(500).send({
+        message: "Error -> Can NOT complete a paging request!",
+        error: error.message,
+      });
+    }    
+  }
+
+  listCountries = (req, res) => {
+    try{
+      let page = parseInt(req.query.page);
+      let limit = 10;
+    
+      const offset = page ? page * limit : 0;
+    
+      Corona.findAndCountAll({ attributes: [[sequelize.fn('DISTINCT', sequelize.col('country')), 'country']],
+        limit: limit, offset:offset})
+        .then(data => {
+          const totalPages = Math.ceil(data.count / limit);
+          const response = {
+            message: "Paginating is completed! Query parameters: page = " + page + ", limit = " + limit,
+            data: {
+                "totalItems": data.count,
+                "totalPages": totalPages,
+                "limit": limit,
+                "currentPageNumber": page + 1,
+                "currentPageSize": data.rows.length,
+                "data": data.rows
             }
           };
           res.send(response);
