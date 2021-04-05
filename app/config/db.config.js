@@ -1,14 +1,24 @@
-module.exports = {
-    HOST: "localhost",
-    USER: "postgres",
-    PASSWORD: "admin",
-    DB: "postgres",
-    dialect: "postgres",
-    pool: {
-      max: 5,
-      min: 0,
-      acquire: 30000,
-      idle: 10000
-    }
-  };
-  
+const env = require('./env.js');
+ 
+const Sequelize = require('sequelize');
+const sequelize = new Sequelize(env.database, env.username, env.password, {
+  host: env.host,
+  dialect: env.dialect,
+  operatorsAliases: false,
+ 
+  pool: {
+    max: env.max,
+    min: env.pool.min,
+    acquire: env.pool.acquire,
+    idle: env.pool.idle
+  }
+});
+
+const db = {};
+
+db.Sequelize = Sequelize;
+db.sequelize = sequelize;
+ 
+db.Corona = require('../models/corona.model')(sequelize, Sequelize);
+ 
+module.exports = db;
