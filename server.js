@@ -3,9 +3,9 @@ const app = express();
 
 var bodyParser = require('body-parser');
  
-const db = require('/config/db.config');
+const db = require('./app/config/db.config');
   
-let router = require('/routers/router');
+let router = require('./app/routers/router');
 
 const cors = require('cors')
 const corsOptions = {

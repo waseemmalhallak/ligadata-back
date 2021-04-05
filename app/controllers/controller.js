@@ -1,7 +1,7 @@
 const db = require('../config/db.config');
 const Corona = db.Corona;
 
-exports.retrieveAllData = (req, res) => {
+retrieveAllData = (req, res) => {
     Corona.findAll()
         .then(coronaInfos => {
             res.status(200).json({
@@ -20,7 +20,7 @@ exports.retrieveAllData = (req, res) => {
         });
 }
 
-exports.pagination = (req, res) => {
+pagination = (req, res) => {
     try{
       let page = parseInt(req.query.page);
       let limit = parseInt(req.query.limit);
@@ -49,4 +49,9 @@ exports.pagination = (req, res) => {
         error: error.message,
       });
     }    
+  }
+
+  module.exports={
+    retrieveAllData,
+    pagination
   }
